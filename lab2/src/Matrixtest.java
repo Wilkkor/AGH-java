@@ -3,7 +3,7 @@ public class Matrixtest {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         System.out.println("podaj rows i cols");
-        double[][] tab={{1,2,3,4},{5,6,7,8},{9,10,11,12}};
+        double[][] tab={{1,2,3},{5,6,7},{9,10,11}};
         Matrix A=new Matrix(tab);
         //System.out.println(A.get(3,3));
         System.out.println("rows"+A.getrows()+" cols "+A.getcols());
@@ -18,12 +18,21 @@ public class Matrixtest {
         }
         for(int i=0;i<A.getrows();i++){
             for(int j=0;j<A.getcols();j++){
-                A.set(i,j,100.0);
+                A.set(i,j,10);
             }
         }
         System.out.println("teraz macierz setek");
         A.print();
         System.out.println("\n"+A.toString());
-        
+        A.multip(A).print();
+        A=Matrix.random(3,3);
+        A.print();
+        for(int i=0;i<A.getrows();i++){
+            for(int j=0;j<A.getcols();j++){
+                A.set(i,j,2);
+            }
+        }
+        A.print();
+        A.inv().print();
     }
 }
