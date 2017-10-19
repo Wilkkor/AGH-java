@@ -38,6 +38,14 @@ public class Matrix {
         }
         return a;
     }
+    void print(){
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                System.out.printf("%f ",data[i*cols+j]);
+            }
+            System.out.println("");
+        }
+    }
     double get(int r,int c){
         return data[r*cols+c];
     }
@@ -123,6 +131,6 @@ public class Matrix {
         }
         return W;
     }
-    
+
 
 }

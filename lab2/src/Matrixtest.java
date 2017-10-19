@@ -7,12 +7,7 @@ public class Matrixtest {
         Matrix A=new Matrix(tab);
         //System.out.println(A.get(3,3));
         System.out.println("rows"+A.getrows()+" cols "+A.getcols());
-        for(int i=0;i<A.getrows();i++){
-            for(int j=0;j<A.getcols();j++){
-                System.out.printf("%f ",A.get(i,j));
-            }
-            System.out.println("");
-        }
+        A.print();
         double[][] a=A.asArray();
         System.out.println("teraz wypisze tablicę");
         for(int i=0;i<A.getrows();i++){
@@ -27,13 +22,8 @@ public class Matrixtest {
             }
         }
         System.out.println("teraz macierz setek");
-        for(int i=0;i<A.getrows();i++){
-            for(int j=0;j<A.getcols();j++){
-                System.out.printf("%f ",A.get(i,j));
-            }
-            System.out.println("");
-        }
-        System.out.println(A.toString());
-
+        A.print();
+        System.out.println("\n"+A.toString());
+        
     }
 }
