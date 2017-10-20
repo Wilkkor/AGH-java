@@ -175,9 +175,16 @@ public class Matrix {
         }
         return a;
     }
-    void addrows(int i1,int i2,double multip){
+    void addRows(int i1,int i2,double multip){
         for(int j=0;j<cols;j++){
             set(i1,j,get(i1,j)+multip*get(i2,j));
+        }
+    }
+    void swapRows(int i1,int i2){
+        for(int j=0;j<cols;j++){
+            double pom=get(i1,j);
+            set(i1,j,get(i2,j));
+            set(i2,j,pom);
         }
     }
     Matrix inv(){
@@ -186,13 +193,41 @@ public class Matrix {
         }
         Matrix b=eye(rows,cols);
         Matrix a=this;
-        for(int i=1;i<rows;i++){
-            a.addrows(i,i-1,(-a.get(i,i))/a.get(i,i-1));
-            b.addrows(i,i-1,(-a.get(i,i))/a.get(i,i-1));
-        }
-        for(int i=rows-1;i>=1;i++){
-            a.addrows(i-1,i,(-a.get(i,i-1))/a.get(i,i));
-            b.addrows(i-1,i,(-a.get(i,i-1))/a.get(i,i));
+        int i,j,k;
+        for(i=0; i<a.rows; i++) {
+            // Find pivot row
+            double max = Math.abs(a.get(i,i));
+            int pivot = i;
+            for (k = i; k < a.rows; k++) {
+                if (max < Math.abs(a.get(k,i))) {
+                    max = Math.abs(a.get(k,i));
+                    pivot = k;
+                }
+            }
+            if (i != pivot) a.swapRows(i, pivot);
+            if (i != pivot) b.swapRows(i, pivot);
+            if (a.get(i,i) != 1.0) {
+                double divby = a.get(i,i);
+                if (Math.abs(divby)> 0) {
+                    for (j = 0; j < a.rows; j++) {
+                        b.set(i,j,b.get(i,j)/divby);
+                        a.set(i,j,a.get(i,j)/divby);
+                    }
+                } else {
+                    throw new RuntimeException(String.format("division by zero"));
+                }
+            }
+            for (j = 0; j < a.rows; j++) {
+                if (j != i) {
+                    if (a.get(j,i) != 0) {
+                        double mulby = a.get(j,i);
+                        for (k = 0; k < a.rows; k++) {
+                            a.set(i,k,a.get(i,k)-a.get(i,k)*mulby);
+                            b.set(i,k,b.get(i,k)-b.get(i,k)*mulby);
+                        }
+                    }
+                }
+            }
         }
 
         return b;

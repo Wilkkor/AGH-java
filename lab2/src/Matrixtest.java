@@ -29,10 +29,14 @@ public class Matrixtest {
         A.print();
         for(int i=0;i<A.getrows();i++){
             for(int j=0;j<A.getcols();j++){
-                A.set(i,j,2);
+                A.set(i,j,0);
             }
         }
+        for(int i=0;i<3;i++){
+            A.set(i,i,11);
+        }
         A.print();
-        A.inv().print();
+        Matrix B=Matrix.eye(A.getrows(),A.getcols());
+        A.inv().sub(B).print();
     }
 }
