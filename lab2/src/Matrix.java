@@ -194,7 +194,12 @@ public class Matrix {
             throw new RuntimeException(String.format("It's not square"));
         }
         Matrix b=eye(rows,cols);
-        Matrix a=this;
+        Matrix a=new Matrix(rows,cols);
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                a.set(i,j,get(i,j));
+            }
+        }
         int i,j,k;
         for(i=0; i<a.rows; i++) {
             // Find pivot row
