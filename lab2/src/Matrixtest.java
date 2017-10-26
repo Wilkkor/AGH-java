@@ -24,6 +24,6 @@ public class Matrixtest {
         System.out.println("teraz macierz setek");
         A.print();
         System.out.println("\n"+A.toString());
-
+        
     }
 }

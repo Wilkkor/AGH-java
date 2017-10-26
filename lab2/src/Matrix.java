@@ -1,4 +1,4 @@
-
+import java.util.Random;
 
 public class Matrix {
     private double[]data;
@@ -49,10 +49,10 @@ public class Matrix {
     double get(int r,int c){
         return data[r*cols+c];
     }
-    double getrows(){
+    int getrows(){
         return rows;
     }
-    double getcols(){
+    int getcols(){
         return cols;
     }
     void set (int r,int c, double value){
@@ -64,7 +64,7 @@ public class Matrix {
         for(int i=0;i<rows;i++){
             buf.append("[");
             for(int j=0;j<cols;j++){
-                buf.append(data[i*cols+rows]);
+                buf.append(data[i*cols+j]);
                 buf.append(',');
             }
             buf.deleteCharAt(buf.length()-1);
@@ -110,7 +110,7 @@ public class Matrix {
     Matrix mul(Matrix m)
     {
         if(m.getcols()!=cols||m.getrows()!=rows)
-            throw new RuntimeException(String.format("%d x %d matrix can't be multiplied to %d x %d",rows,cols,m.getrows(),m.getcols()));
+            throw new RuntimeException(String.format("%d x %d matrix can't be multiplied by %d x %d",rows,cols,m.getrows(),m.getcols()));
         Matrix W=new Matrix(rows,cols);
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
@@ -122,7 +122,7 @@ public class Matrix {
     Matrix div(Matrix m)
     {
         if(m.getcols()!=cols||m.getrows()!=rows)
-            throw new RuntimeException(String.format("%d x %d matrix can't be divided to %d x %d",rows,cols,m.getrows(),m.getcols()));
+            throw new RuntimeException(String.format("%d x %d matrix can't be divided by %d x %d",rows,cols,m.getrows(),m.getcols()));
         Matrix W=new Matrix(rows,cols);
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
@@ -131,6 +131,105 @@ public class Matrix {
         }
         return W;
     }
+    double Frobenius(){
+        double s=0;
+        for(int i=0;i<data.length;i++){
+            s=s+data[i]*data[i];
+        }
+        return s;
+    }
+    Matrix multip(Matrix m){
+        Matrix W=new Matrix(rows,m.getcols());
+        if(cols!=m.getrows()){
+            throw new RuntimeException(String.format("%d x %d matrix can't be multiplayed by %d x %d",rows,cols,m.getrows(),m.getcols()));
+        }
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<m.getcols();j++){
+                W.set(i,j,0);
+                for(int k=0;k<cols;k++){
+                    W.set(i,j,W.get(i,j)+data[i*cols+k]*m.get(k,j));
+                }
+            }
+        }
+        return W;
+    }
+    public static Matrix random(int rows,int cols){
+        Matrix a=new Matrix(rows,cols);
+        Random r = new Random();
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                a.set(i,j,100*r.nextDouble());
+            }
+        }
+        return a;
+    }public static Matrix eye(int rows,int cols){
+        Matrix a=new Matrix(rows,cols);
+        Random r = new Random();
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                a.set(i,j,0);
+            }
+        }
+        for(int i=0;i<rows;i++){
+                a.set(i,i,1);
+        }
+        return a;
+    }
+    void addRows(int i1,int i2,double multip){
+        for(int j=0;j<cols;j++){
+            set(i1,j,get(i1,j)+multip*get(i2,j));
+        }
+    }
+    void swapRows(int i1,int i2){
+        for(int j=0;j<cols;j++){
+            double pom=get(i1,j);
+            set(i1,j,get(i2,j));
+            set(i2,j,pom);
+        }
+    }
+    Matrix inv(){
+        if(rows!=cols){
+            throw new RuntimeException(String.format("It's not square"));
+        }
+        Matrix b=eye(rows,cols);
+        Matrix a=this;
+        int i,j,k;
+        for(i=0; i<a.rows; i++) {
+            // Find pivot row
+            double max = Math.abs(a.get(i,i));
+            int pivot = i;
+            for (k = i; k < a.rows; k++) {
+                if (max < Math.abs(a.get(k,i))) {
+                    max = Math.abs(a.get(k,i));
+                    pivot = k;
+                }
+            }
+            if (i != pivot) a.swapRows(i, pivot);
+            if (i != pivot) b.swapRows(i, pivot);
+            if (a.get(i,i) != 1.0) {
+                double divby = a.get(i,i);
+                if (Math.abs(divby)> 0) {
+                    for (j = 0; j < a.rows; j++) {
+                        b.set(i,j,b.get(i,j)/divby);
+                        a.set(i,j,a.get(i,j)/divby);
+                    }
+                } else {
+                    throw new RuntimeException(String.format("division by zero"));
+                }
+            }
+            for (j = 0; j < a.rows; j++) {
+                if (j != i) {
+                    if (a.get(j,i) != 0) {
+                        double mulby = a.get(j,i);
+                        for (k = 0; k < a.rows; k++) {
+                            a.set(i,k,a.get(i,k)-a.get(i,k)*mulby);
+                            b.set(i,k,b.get(i,k)-b.get(i,k)*mulby);
+                        }
+                    }
+                }
+            }
+        }
 
-
+        return b;
+    }
 }
