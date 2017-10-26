@@ -40,10 +40,11 @@ public class Matrix {
     }
     void print(){
         for(int i=0;i<rows;i++){
-            for(int j=0;j<cols;j++){
-                System.out.printf("%f ",data[i*cols+j]);
+            System.out.printf("%f",data[i*cols]);
+            for(int j=1;j<cols;j++){
+                System.out.printf(" %f",data[i*cols+j]);
             }
-            System.out.println("");
+            System.out.printf("\n");
         }
     }
     double get(int r,int c){
@@ -70,6 +71,7 @@ public class Matrix {
             buf.deleteCharAt(buf.length()-1);
             buf.append(']');
         }
+        buf.append(']');
         return buf.toString();
     }
     void reshape(int newRows,int newCols){
