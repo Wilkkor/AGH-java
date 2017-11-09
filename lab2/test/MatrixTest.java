@@ -104,8 +104,9 @@ public class MatrixTest {
         assertEquals(3,m1.multip(m1.inv()).Frobenius(),0.01);
     }
     @Test
-    public void kartk() throws Exception {
-
+    public void getcol() throws Exception {
+        Matrix m1=new Matrix(new double[][]{{4,0,0},{0,4,0},{0,0,4}});
+        assertEquals("[[4.0][0.0][0.0]]",m1.getColumn(0).toString());
     }
 
 }

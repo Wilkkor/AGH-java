@@ -240,7 +240,13 @@ public class Matrix {
         return b;
     }
     //////// GRUPA ? /////////
-
+    Matrix getColumn(int i){
+        Matrix wynik=new Matrix(rows,1);
+        for(int j=0;j<rows;j++){
+            wynik.set(j,0,get(j,i));
+        }
+        return wynik;
+    }
 
 
     /////////////////////////
