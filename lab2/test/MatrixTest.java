@@ -103,5 +103,9 @@ public class MatrixTest {
         Matrix m1=new Matrix(new double[][]{{4,0,0},{0,4,0},{0,0,4}});
         assertEquals(3,m1.multip(m1.inv()).Frobenius(),0.01);
     }
+    @Test
+    public void kartk() throws Exception {
+
+    }
 
 }
