@@ -239,7 +239,7 @@ public class Matrix {
 
         return b;
     }
-    //////// GRUPA ? /////////
+    //////// GRUPA A /////////
     Matrix getColumn(int i){
         Matrix wynik=new Matrix(rows,1);
         for(int j=0;j<rows;j++){
