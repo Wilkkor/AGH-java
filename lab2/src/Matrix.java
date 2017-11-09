@@ -241,6 +241,9 @@ public class Matrix {
     }
     //////// GRUPA A /////////
     Matrix getColumn(int i){
+        if(i>=cols){
+            throw new RuntimeException(String.format("out of range"));
+        }
         Matrix wynik=new Matrix(rows,1);
         for(int j=0;j<rows;j++){
             wynik.set(j,0,get(j,i));
