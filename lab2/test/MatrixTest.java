@@ -56,7 +56,13 @@ public class MatrixTest {
 
     @Test
     public void reshape() throws Exception {
-
+        Matrix m1=new Matrix(new double[][] {{12,13,14},{5,67},{1,12,123,1}});
+        try{
+            m1.reshape(4,4);
+        }
+        catch(RuntimeException a){
+            assertEquals("3 x 4 matrix can't be reshaped to 4 x 4",a.getMessage());
+        }
     }
 
     @Test
