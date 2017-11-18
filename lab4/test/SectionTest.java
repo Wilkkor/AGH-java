@@ -7,12 +7,11 @@ import static org.junit.Assert.*;
 public class SectionTest {
     @org.junit.Test
     public void writeHTML() throws Exception {
-        String imageUrl = "jan-kowalski.png";
         // Utwórz strumień zapisujący w pamięci
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
         // Utwórz obiekt i zapisz do strumienia
-        new Photo(imageUrl).writeHTML(ps);
+        new Section("Testowa").writeHTML(ps);
         String result = null;
         // Pobierz jako String
         try {
@@ -24,10 +23,9 @@ public class SectionTest {
         //System.out.println(result);
 
         // Sprawdź, czy result zawiera wybrane elementy
-        assertTrue(result.contains("<img"));
-        assertTrue(result.contains("/>"));
-        assertTrue(result.contains("src="));
-        assertTrue(result.contains(imageUrl));
+        assertTrue("bez h1",result.contains("<h1>"));
+        assertTrue("bez /h1",result.contains("</h1>"));
+        assertTrue("bez tekstu",result.contains("Testowa"));
 
     }
 }

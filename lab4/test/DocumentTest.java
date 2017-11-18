@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class DocumentTest {
     @org.junit.Test
-    public void addPhoto() throws Exception {
+    public void Document() throws Exception {
         Document cv = new Document("Jana Kowalski - CV");
         cv.addPhoto("...");
         cv.addSection("Wykształcenie")
@@ -23,12 +23,10 @@ public class DocumentTest {
         cv.writeHTML(System.out);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(os);
-        // Utwórz obiekt i zapisz do strumienia
         cv.writeHTML(ps);
         String result = null;
-        // Pobierz jako String
         try {
-            result = os.toString("ISO-8859-2");
+            result = os.toString("UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -52,6 +50,8 @@ public class DocumentTest {
                 "</ul>\n" +
                 "</body>\n" +
                 "</html>",result);
+        cv.write("cv.xml");
     }
+
 
 }

@@ -1,6 +1,8 @@
+import javax.xml.bind.annotation.*;
 import java.io.PrintStream;
 
 public class Listitem {
+    @XmlValue
     String content;
     Listitem(String name){
         content=name;
