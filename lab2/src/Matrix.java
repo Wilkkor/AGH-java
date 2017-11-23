@@ -241,7 +241,7 @@ public class Matrix {
     }
     //////// GRUPA A /////////
     Matrix getColumn(int i){
-        if(i>=cols){
+        if(i>=cols||i<0){
             throw new RuntimeException(String.format("out of range"));
         }
         Matrix wynik=new Matrix(rows,1);

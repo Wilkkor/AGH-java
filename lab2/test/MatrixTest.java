@@ -1,5 +1,6 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -111,8 +112,25 @@ public class MatrixTest {
     }
     @Test
     public void getcol() throws Exception {
-        Matrix m1=new Matrix(new double[][]{{4,0,0},{0,4,0},{0,0,4}});
-        assertEquals("[[4.0][0.0][0.0]]",m1.getColumn(0).toString());
+        Random a=new Random();
+        int m=a.nextInt(100)+12;
+        int n=a.nextInt(100)+12;
+        Matrix mat=Matrix.random(n,m);
+        for(int c=-1;c<=m;c++){
+            try{
+                Matrix colc=mat.getColumn(c);
+                for(int r=0;r<n;r++){
+                    assertEquals(colc.get(r,0),mat.get(r,c),0);
+                }
+
+            }
+            catch(RuntimeException f){
+                assertEquals(f.getMessage(),"out of range");
+                if(c>=0&&c<m){
+                    throw f;
+                }
+            }
+        }
     }
 
 }
