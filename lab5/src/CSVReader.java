@@ -45,7 +45,10 @@ public class CSVReader {
         if(line==null){
             return false;
         }
-        current = line.split(delimiter);
+//        if(line.charAt(line.length()-1)==delimiter.charAt(0)){
+//            line=line+" ";
+//        }
+        current = line.split(delimiter+"(?=([^\"]*\"[^\"]*\")*[^\"]*$)",-1);
         return true;
     }
     String get(int i){
@@ -85,15 +88,6 @@ public class CSVReader {
         return current[columnIndex]=="";
     }
     boolean isMissing(String columnLabel){
-        return  columnLabels.indexOf(columnLabel)==-1;
-    }
-    public static void main(String[] args) throws IOException {
-        CSVReader a=new CSVReader("with-header.csv",";",true);
-        while(a.next()){
-            for(int i=0;i<a.getColumnLabels().size();i++){
-                System.out.printf(a.get(i)+" ");
-            }
-            System.out.println();
-        }
+        return  isMissing(columnLabelsToInt.get(columnLabel));
     }
 }
