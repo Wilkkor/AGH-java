@@ -59,6 +59,9 @@ public class CSVReader {
     }
     int getInt(int i){
         String a=current[i];
+        if(a==""){
+            return 0;
+        }
         return  Integer.parseInt(a);
     }
     int getInt(String label){
@@ -66,6 +69,9 @@ public class CSVReader {
     }
     double getDouble(int i){
         String a=current[i];
+        if(a==""){
+            return 0;
+        }
         return  Double.parseDouble(a);
     }
     double getDouble(String label){
@@ -73,6 +79,9 @@ public class CSVReader {
     }
     double getLong(int i){
         String a=current[i];
+        if(a==""){
+            return 0;
+        }
         return  Long.parseLong(a);
     }
     double getLong(String label){
@@ -85,7 +94,11 @@ public class CSVReader {
         return current.length;
     }
     boolean isMissing(int columnIndex){
-        return current[columnIndex]=="";
+        if(columnIndex>=current.length){
+            return true;
+        }
+        //return false;
+        return current[columnIndex].isEmpty();
     }
     boolean isMissing(String columnLabel){
         return  isMissing(columnLabelsToInt.get(columnLabel));

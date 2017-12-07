@@ -5,5 +5,5 @@ public class AdminUnit {
     double area;
     double population;
     double density;
-    BoundingBox bbox=new BoundingBox();
+    BoundingBox bbox;
 }

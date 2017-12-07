@@ -1,5 +1,3 @@
-import com.sun.xml.internal.xsom.impl.scd.Iterators;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,47 +9,85 @@ public class AdminUnitList {
     AdminUnitList() throws IOException {
         CSVReader a=new CSVReader("admin-units.csv",",",true);
         int s=0,ic=0;
-        Map <Integer ,Integer> id=new HashMap<Integer, Integer>();;
+        Map <Integer ,Integer> id=new HashMap<Integer, Integer>();
+        Map <Integer ,Integer> idparent=new HashMap<Integer, Integer>();
         while (a.next()){
             ic++;
-            if(a.columnLabels.size()==a.current.length){
-                AdminUnit c=new AdminUnit();
+            AdminUnit c=new AdminUnit();
+            if(!a.isMissing("admin_level"))
                 c.adminLevel=a.getInt("admin_level");
+            else
+                c.adminLevel=-1;
+            if(!a.isMissing("area"))
                 c.area=a.getDouble("area");
+            else
+                c.area=-1;
+            if(!a.isMissing("density"))
                 c.density=a.getDouble("density");
+            else
+                c.density=-1;
+            if(!a.isMissing("population"))
                 c.population=a.getDouble("population");
+            else
+                c.population=-1;
+            if(!a.isMissing("name"))
                 c.name=a.get("name");
-                id.put(ic,a.getInt("parent"));
-                double xmin=a.getDouble(8);
-                double ymin=a.getDouble(9);
-                double xmax=a.getDouble(8);
-                double ymax=a.getDouble(9);
-                for(int i=8;i<=14;i=+2){
-                    if(xmin>a.getDouble(i)){
-                        xmin=a.getDouble(i);
-                    }
-                    if(ymin>a.getDouble(1+i)){
-                        ymin=a.getDouble(i+1);
-                    }
-                    if(xmax<a.getDouble(i)){
-                        xmax=a.getDouble(i);
-                    }
-                    if(ymax<a.getDouble(i+1)){
-                        ymax=a.getDouble(i+1);
+            else
+                c.name="";
+            if(!a.isMissing("parent"))
+                idparent.put(ic,a.getInt("parent"));
+            else
+                idparent.put(ic,a.getInt("parent"));
+            if(!a.isMissing("id"))
+                id.put(a.getInt("id"),ic);
+            else
+                id.put(a.getInt("id"),ic);
+                double xmin=Double.NaN;
+                double ymin=Double.NaN;
+                double xmax=Double.NaN;
+                double ymax=Double.NaN;
+            if(!a.isMissing(8))
+                xmin=a.getDouble(8);
+            if(!a.isMissing(9))
+                ymin=a.getDouble(9);
+            if(!a.isMissing(8))
+                xmax=a.getDouble(8);
+            if(!a.isMissing(9))
+                ymax=a.getDouble(9);
+            for(int i=10;i<=14;i=+2) {
+                if (!a.isMissing(i)){
+                    if (xmin > a.getDouble(i)) {
+                        xmin = a.getDouble(i);
                     }
                 }
-                c.bbox=new BoundingBox(xmax,ymax,xmin,ymin);
-                ////referencja po id
-                units.add(c);
-            }else {
-                s++;
-                for (int i=0;i<a.current.length;i++){
-                    System.out.printf("%s  ",a.get(i));
+                if (!a.isMissing(i+1)) {
+                    if (ymin > a.getDouble(1 + i)) {
+                        ymin = a.getDouble(i + 1);
+                    }
                 }
-                System.out.println("");
+                if (!a.isMissing(i)) {
+                    if (xmax < a.getDouble(i)) {
+                        xmax = a.getDouble(i);
+                    }
+                }
+                if (!a.isMissing(i+1)) {
+                    if (ymax < a.getDouble(i + 1)) {
+                        ymax = a.getDouble(i + 1);
+                    }
+                }
+            }
+            c.bbox=new BoundingBox(xmax,ymax,xmin,ymin);
+            ////referencja po id
+            units.add(c);
+        }
+        for(int i=0;i<id.size();i++){
+            if(idparent.get(i)!=0){
+                units.get(i).parent=units.get(id.get(idparent.get(i)));
+            }
+            else{
+                units.get(i).parent=null;
             }
         }
-        for()
         System.out.println(a.getColumnLabels().size()+"     "+s+"    "+ic);
     }
     void read(){
