@@ -37,7 +37,7 @@ public class AdminUnitList {
             if(!a.isMissing("parent"))
                 idparent.put(ic,a.getInt("parent"));
             else
-                idparent.put(ic,a.getInt("parent"));
+                idparent.put(ic,a.getInt("parent"));///////////////////coś zrobić z id
             if(!a.isMissing("id"))
                 id.put(a.getInt("id"),ic);
             else
