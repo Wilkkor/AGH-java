@@ -9,4 +9,103 @@ public class BoundingBox {
         xmax=xx;
         ymax=yx;
     }
+    BoundingBox(){
+        xmin=0;
+        ymin=0;
+        xmax=0;
+        ymax=0;
+    }
+    void addPoint(double x, double y){
+        if (xmin > x) {
+            xmin = x;
+        }
+        if (ymin > y) {
+            ymin = y;
+        }
+        if (xmax < x) {
+            xmax = x;
+        }
+        if (ymax < y) {
+            ymax = y;
+        }
+    }
+    boolean contains(double x, double y){
+        if (x<xmax&&x>xmin&&y<ymax&&y>ymin) {
+            return true;
+        }
+        return false;
+    }
+    boolean contains(BoundingBox bb){
+        if(bb.xmin>xmin&&bb.xmax>xmax&&bb.ymin>ymin&&bb.ymax>ymin) {
+            return true;
+        }
+        return false;
+    }
+    boolean intersects(BoundingBox bb){
+        if((contains(bb.ymin,bb.xmin)||contains(bb.ymax,bb.xmin)||contains(bb.ymin,bb.xmax)||contains(bb.ymax,bb.xmax))&&!contains(bb)) {
+            return true;
+        }
+        return false;
+    }
+    BoundingBox add(BoundingBox bb){
+        if (xmin > bb.xmin) {
+            xmin = bb.xmin;
+        }
+        if (ymin > bb.ymin) {
+            ymin = bb.ymin;
+        }
+        if (xmax < bb.xmax) {
+            xmax = bb.xmax;
+        }
+        if (ymax < bb.ymax) {
+            ymax = bb.ymax;
+        }
+        return this;
+    }
+    boolean isEmpty(){
+        if(xmin==Double.NaN||xmax==Double.NaN&&ymin==Double.NaN&&ymax==Double.NaN) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * Oblicza i zwraca współrzędną x środka
+     * @return if !isEmpty() współrzędna x środka else wyrzuca wyjątek
+     * (sam dobierz typ)
+     */
+    double getCenterX(){
+        if(!isEmpty()){
+            return (xmax+xmin)/2;
+        }
+        throw new RuntimeException("empty");
+    }
+    /**
+     * Oblicza i zwraca współrzędną y środka
+     * @return if !isEmpty() współrzędna y środka else wyrzuca wyjątek
+     * (sam dobierz typ)
+     */
+    double getCenterY(){
+        if(!isEmpty()){
+            return (ymin+ymax)/2;
+        }
+        throw new RuntimeException("empty");
+    }
+
+    /**
+     * Oblicza odległość pomiędzy środkami this bounding box oraz bbx
+     * @param bbx prostokąt, do którego liczona jest odległość
+     * @return if !isEmpty odległość, else wyrzuca wyjątek lub zwraca maksymalną możliwą wartość double
+     * Ze względu na to, że są to współrzędne geograficzne, zamiast odległosci euklidesowej możesz użyć wzoru haversine
+     * (ang. haversine formula)
+     */
+    double distanceTo(BoundingBox bbx){
+        if(isEmpty()||bbx.isEmpty()){
+            throw new RuntimeException("one is empty");
+        }
+        return Math.sqrt((getCenterX()-bbx.getCenterX())*(getCenterX()-bbx.getCenterX())+(getCenterY()-bbx.getCenterY())*(getCenterY()-bbx.getCenterY()));
+    }
+
 }

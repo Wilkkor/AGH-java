@@ -59,7 +59,7 @@ public class CSVReader {
     }
     int getInt(int i){
         String a=current[i];
-        if(a==""){
+        if(isMissing(i)){
             return 0;
         }
         return  Integer.parseInt(a);
@@ -69,7 +69,7 @@ public class CSVReader {
     }
     double getDouble(int i){
         String a=current[i];
-        if(a==""){
+        if(isMissing(i)){
             return 0;
         }
         return  Double.parseDouble(a);
@@ -79,7 +79,7 @@ public class CSVReader {
     }
     double getLong(int i){
         String a=current[i];
-        if(a==""){
+        if(isMissing(i)){
             return 0;
         }
         return  Long.parseLong(a);

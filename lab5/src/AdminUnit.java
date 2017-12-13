@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminUnit {
@@ -8,10 +9,16 @@ public class AdminUnit {
     double population;
     double density;
     BoundingBox bbox;
-    List<AdminUnit> children;
+    List<AdminUnit> children=new ArrayList<>();
     public String toString(){
         StringBuilder a=new StringBuilder();
-        a.append(parent.name).append(name).append(adminLevel).append(area).append(population).append(density).append(bbox);
+        a.append(name).append(" ");
+        if(parent!=null){
+            a.append("w jednostce ").append(parent.name);
+        }else {
+            a.append("jednostka podstawowa");
+        }
+        a.append(" poziom administracyjny: ").append(adminLevel).append(" powierzchnia: ").append(area).append(" populacja: ").append(population).append(" gęstość zaludnienia: ").append(density);
         return a.toString();
     }
 }
