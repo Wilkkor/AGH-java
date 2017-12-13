@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -6,8 +7,8 @@ import java.util.Map;
 
 public class AdminUnitList {
     List<AdminUnit> units=new ArrayList<>();
-    AdminUnitList() throws IOException {
-        CSVReader a=new CSVReader("admin-units.csv",",",true);
+    public void read(String filename) throws IOException {
+        CSVReader a=new CSVReader(filename,",",true);//file "admin-units.csv"
         int s=0,ic=0;
         Map <Integer ,Integer> id=new HashMap<Integer, Integer>();
         Map <Integer ,Integer> idparent=new HashMap<Integer, Integer>();
@@ -89,12 +90,53 @@ public class AdminUnitList {
             }
         }
         System.out.println(a.getColumnLabels().size()+"     "+s+"    "+ic);
+        for (AdminUnit x:units) {
+            if(x.parent!=null){
+                x.parent.children.add(x);
+            }
+        }
     }
-    void read(){
-        
+    void list(PrintStream out){
+        for (AdminUnit x:units) {
+            System.out.println(x.toString());
+        }
+    }
+    void list(PrintStream out,int offset, int limit ){
+        for (int i=offset;i<limit&&i<units.size();i++){
+            System.out.printf(units.get(i).toString(),out);
+        }
+    }
+    AdminUnitList selectByName(String pattern, boolean regex){
+        AdminUnitList ret = new AdminUnitList();
+        if(regex){
+            for (int i=0;i<units.size();i++){
+                if(units.get(i).name.matches(pattern)){
+                    ret.units.add(units.get(i));
+                }
+            }
+        }
+        else {
+            for (int i=0;i<units.size();i++){
+                if(units.get(i).name.contains(pattern)){
+                    ret.units.add(units.get(i));
+                }
+            }
+        }
+        return ret;
     }
     void fixMissingValues(){
-        
+        for (int i=0;i<units.size();i++){
+            if(units.get(i).density==-1){
+                AdminUnit tmp=units.get(i).parent;
+                while(tmp.density==-1){
+                    tmp=tmp.parent;
+                }
+                units.get(i).density=tmp.density;
+            }
+            if(units.get(i).population==-1){
+                units.get(i).population=units.get(i).density*units.get(i).area;
+            }
+        }
     }
     void selectAdminLevel(int a){
         
