@@ -1,9 +1,19 @@
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+class comparename implements Comparator<AdminUnit>{
+    @Override
+    public int compare(AdminUnit o1, AdminUnit o2) {
+        return o1.name.compareTo(o2.name);
+    }
+}
+class comparearea implements Comparator<AdminUnit>{
+    @Override
+    public int compare(AdminUnit o1, AdminUnit o2) {
+        return new Double(o1.area).compareTo(new Double(o2.area));
+    }
+}
 
 public class AdminUnitList {
     List<AdminUnit> units=new ArrayList<>();
@@ -166,5 +176,28 @@ public class AdminUnitList {
                 units.get(i).population=units.get(i).density*units.get(i).area;
             }
         }
+    }
+    AdminUnitList getNeighbors(AdminUnit unit, double maxdistance){
+        AdminUnitList a=new AdminUnitList();
+        for (AdminUnit x:units) {
+            if(unit.name!=x.name&&unit.adminLevel==x.adminLevel&&(unit.bbox.intersects(x.bbox))){
+                a.units.add(x);
+            }
+            if(unit.adminLevel==8){
+                if(unit.name!=x.name&&unit.adminLevel==x.adminLevel&&(unit.bbox.intersects(x.bbox)||unit.bbox.distanceTo(x.bbox)<=maxdistance)){
+                    a.units.add(x);
+                }
+            }
+
+        }
+        return a;
+    }
+    AdminUnitList sortInplaceByName(){
+        units.sort(new comparename());
+        return this;
+    }
+    AdminUnitList sortInplaceByArea(){
+        units.sort(new comparearea());
+        return this;
     }
 }
