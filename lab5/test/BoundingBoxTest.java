@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 public class BoundingBoxTest {
     @Test
     public void contains() throws Exception {
-        
+
     }
 
     @Test
