@@ -12,7 +12,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Clock.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Clock.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Clock.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="234">
@@ -20,18 +20,6 @@
               <folding>
                 <element signature="e#539#540#0" expanded="true" />
                 <element signature="e#572#573#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClockWithGui.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/ClockWithGui.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="35" column="25" lean-forward="false" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -293,6 +281,16 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/ClockWithGui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="35" column="25" lean-forward="false" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Clock.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
@@ -300,16 +298,6 @@
           <folding>
             <element signature="e#539#540#0" expanded="true" />
             <element signature="e#572#573#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ClockWithGui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="35" column="25" lean-forward="false" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
