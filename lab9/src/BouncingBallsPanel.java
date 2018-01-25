@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class BouncingBallsPanel extends JPanel {
-
+    AnimationThread a;
+    Random generator = new Random();
     static class Ball{
+        int bsize=10;
         int x;
         int y;
         double vx;
@@ -25,20 +27,20 @@ public class BouncingBallsPanel extends JPanel {
                     x.x=x.x+(int)x.vx;
                     x.y=x.y+(int)x.vy;
                     //wykonaj odbicia od ściany
-                    if(x.x<=0){
-                        x.x=-x.x;
+                    if(x.x<0){
+                        x.x=0;
                         x.vx=-x.vx;
                     }
-                    if(x.x>=getSize().width){
-                        x.x=getSize().width*2-x.x;
+                    if(x.x>getSize().width-x.bsize){
+                        x.x=getSize().width-x.bsize;
                         x.vx=-x.vx;
                     }
-                    if(x.y<=0){
-                        x.y=-x.y;
+                    if(x.y<0){
+                        x.y=0;
                         x.vy=-x.vy;
                     }
-                    if(x.y>=getSize().height){
-                        x.y=getSize().height*2-x.y;
+                    if(x.y>getSize().height-x.bsize){
+                        x.y=getSize().height-x.bsize;
                         x.vy=-x.vy;
                     }
                 }
@@ -47,11 +49,31 @@ public class BouncingBallsPanel extends JPanel {
                 repaint();
                 //uśpij
                 try {
-                    sleep(100);
+                    sleep(30);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+//            for(Ball x:balls){
+//                for(Ball y:balls){
+//                    if(x.x<=y.x){
+//                        x.x=0;
+//                        x.vx=-x.vx;
+//                    }
+//                    if(x.x>getSize().width-x.bsize){
+//                        x.x=getSize().width-x.bsize;
+//                        x.vx=-x.vx;
+//                    }
+//                    if(x.y<0){
+//                        x.y=0;
+//                        x.vy=-x.vy;
+//                    }
+//                    if(x.y>getSize().height-x.bsize){
+//                        x.y=getSize().height-x.bsize;
+//                        x.vy=-x.vy;
+//                    }
+//                }
+//            }
         }
     }
 
@@ -61,24 +83,19 @@ public class BouncingBallsPanel extends JPanel {
     public void paint(Graphics g){
         for(Ball x:balls){
             g.setColor(x.color);
-            g.fillOval(
-                    x.x
-                            -
-                            B
-                    ALL_SIZE,
-                    (int)ballY
-                            -
-                            BALL_SIZE,
-                    2*BALL_SIZE, 2*BALL_SIZE);
+            g.fillOval(x.x,x.y,x.bsize,x.bsize);
         }
 
     }
     void onStart(){
-        AnimationThread.run();
+        setOpaque(false);
+        a=new AnimationThread();
+        a.start();
         System.out.println("Start or resume animation thread");
     }
 
     void onStop(){
+        a.stop();
         System.out.println("Suspend animation thread");
     }
 
@@ -87,16 +104,15 @@ public class BouncingBallsPanel extends JPanel {
         Ball a=new Ball();
         a.x=1;
         a.y=1;
-        Random generator = new Random();
-        a.vx=generator.nextDouble()*10;
-        a.vy=generator.nextDouble()*10;
+        a.vx=generator.nextDouble()*5+4;
+        a.vy=generator.nextDouble()*5+4;
         a.color=new Color(generator.nextInt(256)+256*generator.nextInt(256)+256*256*generator.nextInt(256));
         balls.add(a);
     }
 
     void onMinus(){
         System.out.println("Remove a ball");
-        if(balls.size()>1){
+        if(balls.size()>0){
             balls.remove(0);
         }
     }
